@@ -9,9 +9,8 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  output: 'export',
+  output: 'standalone', // <--- Altera de 'export' para 'standalone'
   trailingSlash: true,
-  images: { unoptimized: true }
 }
 
 export default nextConfig
