@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button"
 export function HeroSection() {
   const [isVisible, setIsVisible] = useState(false)
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
-  const heroRef = useRef<HTMLDivElement>(null)
   const parallaxRef = useRef<HTMLDivElement>(null)
   const floatingElementsRef = useRef<HTMLDivElement[]>([])
 
@@ -20,7 +19,6 @@ export function HeroSection() {
         parallaxRef.current.style.transform = `translateY(${rate}px)`
       }
 
-      // Animate floating elements with different speeds
       floatingElementsRef.current.forEach((element, index) => {
         if (element) {
           const scrolled = window.pageYOffset
@@ -49,10 +47,10 @@ export function HeroSection() {
 
   return (
     <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Enhanced Animated Background Elements */}
+      {/* Background Elements */}
       <div ref={parallaxRef} className="absolute inset-0 z-0">
         <div
-          ref={(el) => el && (floatingElementsRef.current[0] = el)}
+          ref={(el) => { if (el) floatingElementsRef.current[0] = el }}
           className="absolute top-20 left-10 w-32 h-32 bg-[#c4d203]/20 rounded-full blur-xl animate-pulse"
           style={{
             transform: `translate(${mousePosition.x * 20}px, ${mousePosition.y * 20}px)`,
@@ -60,7 +58,7 @@ export function HeroSection() {
           }}
         />
         <div
-          ref={(el) => el && (floatingElementsRef.current[1] = el)}
+          ref={(el) => { if (el) floatingElementsRef.current[1] = el }}
           className="absolute top-40 right-20 w-24 h-24 bg-[#c4d203]/30 rounded-full blur-lg animate-bounce"
           style={{
             transform: `translate(${mousePosition.x * -15}px, ${mousePosition.y * 15}px)`,
@@ -68,7 +66,7 @@ export function HeroSection() {
           }}
         />
         <div
-          ref={(el) => el && (floatingElementsRef.current[2] = el)}
+          ref={(el) => { if (el) floatingElementsRef.current[2] = el }}
           className="absolute bottom-32 left-1/4 w-40 h-40 bg-[#c4d203]/10 rounded-full blur-2xl animate-pulse"
           style={{
             transform: `translate(${mousePosition.x * 25}px, ${mousePosition.y * -20}px)`,
@@ -76,7 +74,7 @@ export function HeroSection() {
           }}
         />
         <div
-          ref={(el) => el && (floatingElementsRef.current[3] = el)}
+          ref={(el) => { if (el) floatingElementsRef.current[3] = el }}
           className="absolute top-1/3 right-1/3 w-16 h-16 bg-[#c4d203]/40 rounded-full blur-md animate-ping"
           style={{
             transform: `translate(${mousePosition.x * -30}px, ${mousePosition.y * 25}px)`,
@@ -101,23 +99,25 @@ export function HeroSection() {
         />
       </div>
 
-      {/* Main Content with enhanced animations */}
+      {/* Main Content */}
       <div className="relative z-10 text-center px-6 max-w-6xl mx-auto">
         <div
-          className={`transition-all duration-1500 delay-300 ${
+          style={{ transitionDelay: "300ms" }}
+          className={`transition-all duration-1000 ${
             isVisible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-10 scale-95"
           }`}
         >
           <h1 className="text-6xl md:text-8xl font-black mb-6 leading-tight">
-            <span className="inline-block text-white">VEM </span> <span className="inline-block text-[#c4d203] animate-pulse"> PULSAR</span>
-            
+            <span className="inline-block text-white">VEM </span>{" "}
+            <span className="inline-block text-[#c4d203] animate-pulse">PULSAR</span>
             <br />
             <span className="inline-block text-white">COM A GENTE</span>
           </h1>
         </div>
 
         <div
-          className={`transition-all duration-1500 delay-700 ${
+          style={{ transitionDelay: "700ms" }}
+          className={`transition-all duration-1000 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
           }`}
         >
@@ -133,7 +133,8 @@ export function HeroSection() {
         </div>
 
         <div
-          className={`transition-all duration-1500 delay-1000 ${
+          style={{ transitionDelay: "1000ms" }}
+          className={`transition-all duration-1000 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
           }`}
         >
@@ -157,7 +158,7 @@ export function HeroSection() {
         </div>
       </div>
 
-      {/* Enhanced Scroll Indicator */}
+      {/* Scroll Indicator */}
       <div
         className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce hover:scale-125 transition-transform duration-300 cursor-pointer"
         style={{

@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { useState, useRef } from "react"
 import { motion, useInView } from "framer-motion"
 import { Upload, Paperclip, CheckCircle, User, Mail, Phone, Briefcase, MessageSquare } from "lucide-react"
@@ -10,7 +9,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 
 export function TalentBankSection() {
-  const ref = useRef(null)
+  const ref = useRef<HTMLDivElement>(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
 
   const [formData, setFormData] = useState({
@@ -44,13 +43,12 @@ export function TalentBankSection() {
     e.preventDefault()
     setIsSubmitting(true)
 
-    // Simulate form submission
+    // Simulação de envio do formulário
     await new Promise((resolve) => setTimeout(resolve, 2000))
 
     setIsSubmitting(false)
     setIsSuccess(true)
 
-    // Reset form after success
     setTimeout(() => {
       setIsSuccess(false)
       setFormData({
@@ -112,7 +110,6 @@ export function TalentBankSection() {
           >
             <span className="text-2xl md:text-3xl font-bold text-white">FAÇA PARTE DO FLUXO</span>
             <span className="text-2xl md:text-3xl font-bold text-[#c4d203]">CRIATIVO</span>
-           
           </motion.div>
 
           <motion.p
@@ -125,7 +122,7 @@ export function TalentBankSection() {
           </motion.p>
         </motion.div>
 
-        {/* Success Message */}
+        {/* Success Modal */}
         {isSuccess && (
           <motion.div
             initial={{ opacity: 0, scale: 0.8, y: 50 }}
@@ -227,12 +224,14 @@ export function TalentBankSection() {
                 <select
                   value={formData.area}
                   onChange={(e) => handleInputChange("area", e.target.value)}
-                  className="w-full bg-gray-900/50 border border-gray-700 text-white focus:border-[#c4d203] transition-all duration-300 rounded-md px-3 py-2"
+                  className="w-full bg-gray-900/50 border border-gray-700 text-white focus:border-[#c4d203] transition-all duration-300 rounded-md px-3 py-2 outline-none"
                   required
                 >
-                  <option value="">Selecione uma área</option>
+                  <option value="" className="bg-[#0f0f0f] text-gray-400">
+                    Selecione uma área
+                  </option>
                   {areas.map((area) => (
-                    <option key={area} value={area}>
+                    <option key={area} value={area} className="bg-[#0f0f0f] text-white">
                       {area}
                     </option>
                   ))}

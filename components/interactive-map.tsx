@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { Card } from "@/components/ui/card"
 
 interface Client {
@@ -17,9 +17,8 @@ interface Client {
 
 export function InteractiveMap() {
   const [selectedClient, setSelectedClient] = useState<Client | null>(null)
-  const [animatedMetrics, setAnimatedMetrics] = useState<any>({})
+  const [animatedMetrics, setAnimatedMetrics] = useState<Record<string, number>>({})
   const [hoveredClient, setHoveredClient] = useState<number | null>(null)
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
 
   const clients: Client[] = [
     {
@@ -48,34 +47,16 @@ export function InteractiveMap() {
     },
   ]
 
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      const rect = e.currentTarget as Element
-      if (rect) {
-        const bounds = rect.getBoundingClientRect()
-        const x = (e.clientX - bounds.left) / bounds.width
-        const y = (e.clientY - bounds.top) / bounds.height
-        setMousePosition({ x, y })
-      }
-    }
-
-    const mapElement = document.querySelector(".interactive-map")
-    if (mapElement) {
-      mapElement.addEventListener("mousemove", handleMouseMove as EventListener)
-      return () => mapElement.removeEventListener("mousemove", handleMouseMove as EventListener)
-    }
-  }, [])
-
   const animateNumber = (target: number, key: string) => {
     let current = 0
-    const increment = target / 60 // Slower animation for smoother effect
+    const increment = target / 60
     const timer = setInterval(() => {
       current += increment
       if (current >= target) {
         current = target
         clearInterval(timer)
       }
-      setAnimatedMetrics((prev: any) => ({ ...prev, [key]: Math.floor(current) }))
+      setAnimatedMetrics((prev) => ({ ...prev, [key]: Math.floor(current) }))
     }, 25)
   }
 
@@ -83,7 +64,6 @@ export function InteractiveMap() {
     setSelectedClient(client)
     setAnimatedMetrics({})
 
-    // Animate metrics with staggered delays
     setTimeout(() => animateNumber(client.metrics.revenue, "revenue"), 300)
     setTimeout(() => animateNumber(client.metrics.growth, "growth"), 500)
     setTimeout(() => animateNumber(client.metrics.campaigns, "campaigns"), 700)
@@ -103,7 +83,6 @@ export function InteractiveMap() {
         </div>
 
         <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Enhanced Interactive Map */}
           <div className="relative">
             <div className="interactive-map bg-gradient-to-br from-[#c4d203]/20 to-[#c4d203]/5 rounded-2xl p-8 h-96 relative overflow-hidden hover:from-[#c4d203]/30 hover:to-[#c4d203]/10 transition-all duration-500">
               <div className="absolute inset-0 opacity-10">
@@ -111,11 +90,8 @@ export function InteractiveMap() {
                   {Array.from({ length: 48 }).map((_, i) => (
                     <div
                       key={i}
-                      className="border border-[#c4d203]/20 hover:border-[#c4d203]/50 transition-colors duration-300"
-                      style={{
-                        animationDelay: `${i * 50}ms`,
-                        animation: "pulse 3s infinite",
-                      }}
+                      className="border border-[#c4d203]/20 hover:border-[#c4d203]/50 transition-colors duration-300 animate-pulse"
+                      style={{ animationDelay: `${i * 50}ms` }}
                     />
                   ))}
                 </div>
@@ -133,9 +109,8 @@ export function InteractiveMap() {
                     onClick={() => handleClientClick(client)}
                     onMouseEnter={() => setHoveredClient(client.id)}
                     onMouseLeave={() => setHoveredClient(null)}
-                    className="relative w-4 h-4 bg-[#c4d203] rounded-full hover:scale-200 transition-all duration-500 group transform"
+                    className="relative w-4 h-4 bg-[#c4d203] rounded-full hover:scale-[2] transition-all duration-500 group transform"
                   >
-                    {/* Pulsing rings */}
                     <div className="absolute inset-0 bg-[#c4d203] rounded-full animate-ping opacity-75" />
                     <div className="absolute -inset-2 bg-[#c4d203]/30 rounded-full animate-pulse" />
                     <div
@@ -143,12 +118,11 @@ export function InteractiveMap() {
                       style={{ animationDelay: "0.5s" }}
                     />
 
-                    {/* Enhanced tooltip */}
                     <div
                       className={`absolute -top-12 left-1/2 transform -translate-x-1/2 bg-[#0f0f0f] text-[#c4d203] px-3 py-2 rounded-lg text-xs font-bold transition-all duration-300 whitespace-nowrap border border-[#c4d203]/30 ${
                         hoveredClient === client.id
                           ? "opacity-100 scale-100 translate-y-0"
-                          : "opacity-0 scale-75 translate-y-2"
+                          : "opacity-0 scale-75 translate-y-2 pointer-events-none"
                       }`}
                     >
                       <div className="text-center">
@@ -160,25 +134,9 @@ export function InteractiveMap() {
                   </button>
                 </div>
               ))}
-
-              <div className="absolute inset-0 pointer-events-none">
-                {Array.from({ length: 20 }).map((_, i) => (
-                  <div
-                    key={i}
-                    className="absolute w-1 h-1 bg-[#c4d203]/30 rounded-full animate-pulse"
-                    style={{
-                      left: `${Math.random() * 100}%`,
-                      top: `${Math.random() * 100}%`,
-                      animationDelay: `${Math.random() * 3}s`,
-                      animationDuration: `${2 + Math.random() * 2}s`,
-                    }}
-                  />
-                ))}
-              </div>
             </div>
           </div>
 
-          {/* Enhanced Client Panel */}
           <div className="space-y-6">
             {selectedClient ? (
               <Card className="bg-black/40 backdrop-blur-md border-[#c4d203]/30 p-8 transform transition-all duration-700 hover:scale-105 hover:border-[#c4d203] hover:shadow-2xl hover:shadow-[#c4d203]/20">

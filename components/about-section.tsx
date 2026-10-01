@@ -61,17 +61,18 @@ export function AboutSection() {
             <div className="grid grid-cols-2 gap-6">
               {stats.map((stat, index) => (
                 <Card
-                  key={index}
-                  className={`bg-black/40 backdrop-blur-md border-[#c4d203]/30 p-6 text-center transition-all duration-1000 delay-${index * 200} ${
-                    isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-                  }`}
-                >
-                  <div className="text-3xl font-black text-[#c4d203] mb-2">
-                    {stat.number}
-                    {stat.suffix}
-                  </div>
-                  <div className="text-sm text-gray-300 font-medium">{stat.label}</div>
-                </Card>
+                key={index}
+                style={{ transitionDelay: `${index * 200}ms` }}
+                className={`bg-black/40 backdrop-blur-md border-[#c4d203]/30 p-6 text-center transition-all duration-1000 ${
+                  isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+                }`}
+              >
+                <div className="text-3xl font-black text-[#c4d203] mb-2">
+                  {stat.number}
+                  {stat.suffix}
+                </div>
+                <div className="text-sm text-gray-300 font-medium">{stat.label}</div>
+              </Card>
               ))}
             </div>
           </div>

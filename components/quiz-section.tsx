@@ -51,7 +51,6 @@ export function QuizSection() {
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion(currentQuestion + 1)
     } else {
-      // Calculate score
       const totalScore = newAnswers.reduce((acc, answer, index) => {
         return acc + (answer + 1) * questions[index].weight
       }, 0)
@@ -130,7 +129,7 @@ export function QuizSection() {
                     key={index}
                     onClick={() => handleAnswer(index)}
                     variant="outline"
-                    className="p-6 text-left border-[#c4d203]/30 hover:border-[#c4d203] hover:bg-[#c4d203]/10 transition-all duration-300 transform hover:scale-105"
+                    className="p-6 text-left border-[#c4d203]/30 hover:border-[#c4d203] hover:bg-[#c4d203]/10 transition-all duration-300 transform hover:scale-105 justify-start"
                   >
                     <span className="text-[#c4d203] font-bold mr-4">{String.fromCharCode(65 + index)}.</span>
                     <span className="text-white">{option}</span>
@@ -156,7 +155,9 @@ export function QuizSection() {
                 >
                   Refazer Quiz
                 </Button>
-                <Button className="bg-[#c4d203] text-[#0f0f0f] hover:bg-[#c4d203]/90">Falar com Especialista</Button>
+                <Button className="bg-[#c4d203] text-[#0f0f0f] hover:bg-[#c4d203]/90 font-bold">
+                  Falar com Especialista
+                </Button>
               </div>
             </div>
           )}

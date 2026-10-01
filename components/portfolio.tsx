@@ -85,12 +85,12 @@ export function Portfolio() {
           if (entry.isIntersecting) {
             const cardId = Number.parseInt(entry.target.getAttribute("data-card-id") || "0")
             setTimeout(() => {
-              setVisibleCards((prev) => [...prev, cardId])
-            }, Math.random() * 200) // Random delay for more organic feel
+              setVisibleCards((prev) => (prev.includes(cardId) ? prev : [...prev, cardId]))
+            }, Math.random() * 200)
           }
         })
       },
-      { threshold: 0.1 },
+      { threshold: 0.1 }
     )
 
     const cards = document.querySelectorAll("[data-card-id]")
@@ -110,7 +110,6 @@ export function Portfolio() {
             Projetos que transformaram marcas e geraram resultados extraordinários
           </p>
 
-          {/* Enhanced Filter Buttons */}
           <div className="flex flex-wrap justify-center gap-4">
             {categories.map((category, index) => (
               <button
@@ -153,12 +152,11 @@ export function Portfolio() {
                 <img
                   src={project.image || "/placeholder.svg"}
                   alt={project.title}
-                  className="w-full h-48 object-cover transition-all duration-700 group-hover:scale-120 group-hover:rotate-2"
+                  className="w-full h-48 object-cover transition-all duration-700 group-hover:scale-[1.2] group-hover:rotate-2"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0f0f0f] via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500" />
                 <div className="absolute inset-0 bg-gradient-to-br from-[#c4d203]/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700" />
 
-                {/* Enhanced metrics badge */}
                 <div className="absolute top-4 right-4 bg-[#c4d203] text-[#0f0f0f] px-3 py-1 rounded-full text-sm font-bold transform group-hover:scale-110 group-hover:rotate-12 transition-all duration-500 hover:bg-white hover:text-[#c4d203]">
                   {project.metrics}
                 </div>
