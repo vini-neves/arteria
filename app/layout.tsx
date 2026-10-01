@@ -5,8 +5,8 @@ import '@/app/globals.css';
 
 export const metadata: Metadata = {
   title: 'Artéria Site',
-  description: 'Criado por Artéria',
-  generator: 'Artéria',
+  description: 'Criado por Vini Neves',
+  generator: 'Vini Neves',
 }
 
 export default function RootLayout({
